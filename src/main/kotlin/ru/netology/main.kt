@@ -8,7 +8,11 @@ fun main() {
 }
 
 public val Chat.lastReadMessage: Int
-    get() = this.getMessages().size - getMessages().filter { it.isRead }.size - 1
+    get() = this.getMessages().size -
+            getMessages().asSequence()
+                .filter { it.isRead }
+                .toList()
+                .size - 1
 
 public val ChatService.unreadChatCount: Int
     get() = this.getChats().map { messageList ->  messageList.getMessages().filter { !it.isRead } }.size

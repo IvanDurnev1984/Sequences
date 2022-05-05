@@ -8,14 +8,17 @@ class ChatService {
     fun getChats() = chats.read()
 
     fun getChatById(idContact: Int) =
-        getChats()
+        getChats().asSequence()
             .filter { it.idContact == idContact }
+            .toList()
             .get(0)
 
 
 
     fun addMessage(idContact: Int, content: String) {
-        val list = getChats().filter { it.idContact == idContact }
+        val list = getChats().asSequence()
+            .filter { it.idContact == idContact }
+            .toList()
         if (list.size == 1) {
             val chat = list.get(0)
             chat.createMessage(content)
